@@ -1,4 +1,4 @@
-var posX, posY, scrollDelta = 0;
+var posX = 0, posY = 0, scrollDelta = 0;
 var down = false, first = false;
 var key = '';
 var highlightColor = "";
@@ -11,22 +11,14 @@ document.body.appendChild(canvas);
 sizeCanvas();
 canvas.style.zIndex = "-100";
 
-document.addEventListener('mousemove', function(loc) {
-  posX = loc.x;
-  posY = loc.y;
-  if(down && first){
-  	canvas.style.zIndex = "999999999999";
-	erase();
-	drawCircle();
-  }
-});
-
-
-document.addEventListener('scroll', function(e) {
-	$(document).scroll(function() {
-		scrollDelta = $(document).scrollTop();
-		sizeCanvas();
-	});
+$(document).mousemove(function(e) {
+	posX = e.pageX;
+	posY = e.pageY - $(document).scrollTop();
+	if(down && first){
+		canvas.style.zIndex = "999999999999";
+		erase();
+		drawCircle();
+	}
 });
 
 
@@ -72,7 +64,7 @@ window.onresize = function(event){
 }
 
 function sizeCanvas(){
-	canvas.style.position = "absolute";
+	canvas.style.position = "fixed";
 	canvas.style.left = "0px";
 	canvas.style.top = "0px";
 	canvas.style.width = "100%";
@@ -96,7 +88,7 @@ function restoreOptions(){
   	color: "FFEB3B",
     opac: 0.7,
     rad: 30,
-    trigger: "h"
+    trigger: "F2"
   }, function(items) {
     alpha = items.opac;
     radius = items.rad;
