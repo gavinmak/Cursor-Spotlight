@@ -86,8 +86,8 @@ function drawCircle(){
 function restoreOptions(){
   chrome.storage.sync.get({
   	color: "FFEB3B",
-    opac: 0.7,
-    rad: 30,
+    opac: 0.5,
+    rad: 50,
     trigger: "F2"
   }, function(items) {
     alpha = items.opac;
@@ -96,3 +96,5 @@ function restoreOptions(){
     highlightColor = items.color;
   })
 };
+
+//toggle

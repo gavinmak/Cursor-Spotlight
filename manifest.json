@@ -1,5 +1,4 @@
 {
-"update_url": "https://clients2.google.com/service/update2/crx",
 
   "manifest_version": 2,
 
@@ -10,7 +9,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["jquery-3.1.1.min.js", "background.js"]
+      "js": ["js/jquery-3.1.1.min.js", "js/background.js"]
     }],
 
   "permissions": [
@@ -19,9 +18,5 @@
   
   "icons": { "128": "icon.png"},
 
-  "options_ui": {
-    "page": "options.html",
-    "chrome_style": true,
-    "open_in_tab": true
-  }
+  "browser_action" : { "default_popup": "popup.html" }
 }
