@@ -98,7 +98,7 @@ $(function() {
 		orientation: "horizontal",
 		range: "min",
 		max: 255,
-		value: 127,
+		//value: 127,
 		slide: refreshHighlight,
 		change: refreshHighlight
 	});

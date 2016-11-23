@@ -9,8 +9,7 @@ restoreOptions();
 var canvas = document.createElement("canvas");
 document.body.appendChild(canvas);
 sizeCanvas();
-canvas.style.zIndex = "-100";
-
+canvas.style.pointerEvents = "none";
 
 $(document).mousemove(function(e) {
 	posX = e.pageX;
@@ -21,7 +20,6 @@ $(document).mousemove(function(e) {
 		drawCircle();
 	}
 });
-
 
 document.addEventListener('keydown', (event) => {
 	const keyName = event.key;
@@ -34,7 +32,6 @@ document.addEventListener('keydown', (event) => {
 			erase();
 			drawCircle();
 		}
-		
 	}
 });
 
@@ -50,7 +47,6 @@ document.addEventListener('keyup', (event) => {
 
 		if(!togglePressed || !check) {
 			erase();
-			canvas.style.zIndex = "-100";
 		}
 
 		if(!check)
@@ -58,22 +54,8 @@ document.addEventListener('keyup', (event) => {
 	}	
 });
 
-/*
-document.addEventListener('mousedown', (event) => {
-	if(togglePressed)
-		canvas.style.zIndex = "-100";
-});
-
-document.addEventListener('mouseup', (event) => {
-	if(togglePressed)
-		canvas.style.zIndex = "99999999999999";
-});
-*/
-
-
 document.addEventListener('mouseenter', (event) => {
 	erase();
-	canvas.style.zIndex = "-100";
 });
 
 function displayCursorPos(){
