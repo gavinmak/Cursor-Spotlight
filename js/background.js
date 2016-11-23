@@ -31,6 +31,8 @@ document.addEventListener('keydown', (event) => {
 		canvas.style.zIndex = "99999999999";
 		drawCircle();
 	}
+
+	displayCursorPos();
 });
 
 document.addEventListener('keyup', (event) => {

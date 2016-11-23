@@ -5,28 +5,41 @@
         <link rel="stylesheet" href="popup.css">
     </head>
     <body>
-		<h1>Opacity</h1>
-        <div id="opacity-slider">
-            <div id="opacity" class="ui-slider-handle"></div>
-        </div>
+        <div class="comp">
+            <div class="left">
+                <h1>Opacity</h1>
+                <div id="opacity-slider">
+                    <div id="opacity" class="ui-slider-handle"></div>
+                </div>
+            </div>
 
-		<h1>Size</h1>
-		<div id="radius-slider">
-            <div id="radius" class="ui-slider-handle"></div>
+            <div class="right">
+                <h1>Size</h1>
+                <div id="radius-slider">
+                    <div id="radius" class="ui-slider-handle"></div>
+                </div>
+            </div>
         </div>
 
         <h1>Color</h1>
-		Hex Color Code: #<input type="text" id="color" /><br>
-		<div id="colorStatus" style="float: left;"></div>
+        <div id="red"></div>
+        <div id="green"></div>
+        <div id="blue"></div>
 
-		<h1>Key</h1>
-		<input type="text" id="trigger"><br><br>
+        <div class="comp">
+            <div class="left">
+                <h1>Key</h1>
+                <input type="text" id="trigger"><br><br>
+            </div>
 
-		<button id="save" style="float: left;">Save</button>
-        <div id="status" style="float: left;"></div>
-        <br>
-		<br>Preview:<br>
-		<canvas id="preview" width="150" height="150" style="border: 1px solid #000000;"></canvas>
+            <div class="right">
+                <h1 id="save-button">Save</h1>
+                <div id="save-status" style="float: left;"></div>
+            </div>
+        </div>
+
+        <h1>Preview</h1>
+		<canvas id="preview"  style="border: 1px solid #000000;"></canvas>
 
         <script src="js/jquery-3.1.1.min.js"></script>
         <script src="js/jquery-ui.min.js"></script>
