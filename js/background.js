@@ -1,8 +1,8 @@
 var posX = 0, posY = 0, scrollDelta = 0;
-var down = false, first = false;
 var key = '';
 var highlightColor = "";
 var radius, alpha;
+var check, togglePressed = false, down = false;
 
 restoreOptions();
 
@@ -11,10 +11,11 @@ document.body.appendChild(canvas);
 sizeCanvas();
 canvas.style.zIndex = "-100";
 
+
 $(document).mousemove(function(e) {
 	posX = e.pageX;
 	posY = e.pageY - $(document).scrollTop();
-	if(down && first){
+	if((down && !check) || togglePressed) {
 		canvas.style.zIndex = "999999999999";
 		erase();
 		drawCircle();
@@ -24,30 +25,53 @@ $(document).mousemove(function(e) {
 
 document.addEventListener('keydown', (event) => {
 	const keyName = event.key;
-	if(keyName === key && !first){
-		restoreOptions();
+	if(keyName === key){
 		down = true;
-		first = true;
-		canvas.style.zIndex = "99999999999";
-		drawCircle();
+		
+		if(!check || !togglePressed) {
+			restoreOptions();
+			canvas.style.zIndex = "999999999999";
+			erase();
+			drawCircle();
+		}
+		
 	}
-
-	displayCursorPos();
 });
 
 document.addEventListener('keyup', (event) => {
 	const keyName = event.key;
 	if(keyName === key){
-		down = false;
-		first = false;
-		erase();
-		canvas.style.zIndex = "-100";
-	}
+		if(check){
+			if(togglePressed == true)
+				togglePressed = false;
+			else 
+				togglePressed = true;
+		}
+
+		if(!togglePressed || !check) {
+			erase();
+			canvas.style.zIndex = "-100";
+		}
+
+		if(!check)
+			down = false;
+	}	
 });
 
+/*
+document.addEventListener('mousedown', (event) => {
+	if(togglePressed)
+		canvas.style.zIndex = "-100";
+});
+
+document.addEventListener('mouseup', (event) => {
+	if(togglePressed)
+		canvas.style.zIndex = "99999999999999";
+});
+*/
+
+
 document.addEventListener('mouseenter', (event) => {
-	down = false;
-	first = false;
 	erase();
 	canvas.style.zIndex = "-100";
 });
@@ -76,6 +100,7 @@ function sizeCanvas(){
 }
 
 function drawCircle(){
+	displayCursorPos();
 	var context = canvas.getContext("2d");
 	context.fillStyle = "#".concat(highlightColor.toUpperCase());
 	context.globalAlpha = alpha;
@@ -90,13 +115,13 @@ function restoreOptions(){
   	color: "FFEB3B",
     opac: 0.5,
     rad: 50,
-    trigger: "F2"
+    trigger: "F2",
+	toggle: false
   }, function(items) {
     alpha = items.opac;
     radius = items.rad;
     key = items.trigger;
     highlightColor = items.color;
+	check = items.toggle;
   })
 };
-
-//toggle

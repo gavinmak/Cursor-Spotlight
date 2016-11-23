@@ -28,19 +28,20 @@
 
         <div class="comp">
             <div class="left">
-                <h1>Key</h1>
+                <h1 id="key">Key</h1>
                 <input type="text" id="trigger"><br><br>
             </div>
 
-            <div class="right">
-                <h1 id="save-button">Save</h1>
+            <div class="right" id = "save-box">
+                <input type="submit" value="Save!" id="save-button">
                 <div id="save-status" style="float: left;"></div>
+                <br>
+                <br>
+                <label for="toggle">Toggle</label>
+                <input type="checkbox" id="toggle">
             </div>
         </div>
-
-        <h1>Preview</h1>
-		<canvas id="preview"  style="border: 1px solid #000000;"></canvas>
-
+		<canvas id="preview"></canvas>
         <script src="js/jquery-3.1.1.min.js"></script>
         <script src="js/jquery-ui.min.js"></script>
         <script src="js/popup.js"></script>

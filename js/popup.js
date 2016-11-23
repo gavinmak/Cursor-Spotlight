@@ -1,4 +1,4 @@
-var opacity, radius, highlight;
+var opacity, radius, highlight, check;
 var initOpacity, initRadius;
 
 //called to save the parameters
@@ -11,7 +11,8 @@ function saveOptions() {
 	color: highlight,
 	opac: opacity,
 	rad: radius,
-	trigger: key
+	trigger: key,
+	toggle: check
 	}, function() {
 		//sets div status element to options saved for 1 second, then to empty
 		$("#save-status").text("options saved!");
@@ -29,7 +30,8 @@ function restoreOptions() {
     color: "FFEB3B",
     opac: .5,
     rad: 50,
-    trigger: "F2"
+    trigger: "F2",
+		toggle: false
   }, function(items) {
   	//sets value of the sliders and settings to saved settings
     document.getElementById('trigger').value = items.trigger;
@@ -38,7 +40,8 @@ function restoreOptions() {
 		opacity = items.opac;
 		radius = items.rad;
 		highlight = items.color;
-		
+		check = items.toggle;
+		$('#toggle').prop('checked', check);
 		drawCircle(opacity, radius, highlight);
   });
 }
@@ -101,12 +104,19 @@ $(function() {
 	});
 
 	var vals = hexToRGB(highlight);
-	
 	$("#red").slider("value", vals[0]);
 	$("#green").slider("value", vals[1]);
 	$("#blue").slider("value", vals[2]);
-
   });
+
+$("#toggle").click(function() {
+		if($(this).prop("checked") == true){
+				check = true;
+		}
+		else if($(this).prop("checked") == false){
+				check = false;
+		}
+});
 
 function drawCircle(o, r, h) {
 		var canvas = document.getElementById('preview');
@@ -147,7 +157,6 @@ function hexToRGB(hex) {
     var rStr = hex.substr(0, 2).toLowerCase(),
 		gStr = hex.substr(2, 2).toLowerCase(),
 		bStr = hex.substr(4, 2).toLowerCase();
-
 		var val = [parseInt(rStr, 16), parseInt(gStr, 16), parseInt(bStr, 16)];
 		return val;
 }
