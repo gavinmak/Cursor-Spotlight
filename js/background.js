@@ -3,7 +3,7 @@ var key = '';
 var highlightColor = "";
 var radius, alpha;
 var check, togglePressed = false, down = false;
-var active = false;
+var active = false, nextPage = false;
 var drawnTick = 0;
 
 restoreOptions();
@@ -16,7 +16,7 @@ canvas.style.pointerEvents = "none";
 $(document).mousemove(function(e) {
 	console.log("active " + active);
 	if(active) {
-		togglePressed = active;
+		togglePressed = true;
 		active = false;
 	}
 	posX = e.pageX;
@@ -124,9 +124,13 @@ function restoreOptions(){
 $(window).bind('beforeunload', function () {
 	//if drawn after erased
 	if ( drawnTick > 0 ) {
+		active = true;
 		//called to save the parameters
-		saveOptions();
+	} else {
+		active = false;
 	}
+
+	saveOptions();
 });
 
 function saveOptions() {
@@ -137,6 +141,6 @@ function saveOptions() {
 		rad: radius,
 		trigger: key,
 		toggle: check,
-		activePage: true
+		activePage: active
 	});
 };

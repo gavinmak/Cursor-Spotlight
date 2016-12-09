@@ -35,7 +35,7 @@ function restoreOptions() {
     rad: 50,
     trigger: "u",
 		toggle: true,
-    activePage = false
+    activePage: false
   }, function(items) {
   	//sets value of the sliders and settings to saved settings
     document.getElementById('trigger').value = items.trigger;
