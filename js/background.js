@@ -14,7 +14,6 @@ sizeCanvas();
 canvas.style.pointerEvents = "none";
 
 $(document).mousemove(function(e) {
-	console.log("active " + active);
 	if(active) {
 		togglePressed = true;
 		active = false;
@@ -129,18 +128,12 @@ $(window).bind('beforeunload', function () {
 	} else {
 		active = false;
 	}
-
 	saveOptions();
 });
 
 function saveOptions() {
 	//chrome API to store data in JSON
 	chrome.storage.sync.set({
-		color: highlightColor,
-		opac: alpha,
-		rad: radius,
-		trigger: key,
-		toggle: check,
 		activePage: active
 	});
 };
