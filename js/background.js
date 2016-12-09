@@ -3,6 +3,8 @@ var key = '';
 var highlightColor = "";
 var radius, alpha;
 var check, togglePressed = false, down = false;
+var active = false;
+var drawnTick = 0;
 
 restoreOptions();
 
@@ -12,6 +14,11 @@ sizeCanvas();
 canvas.style.pointerEvents = "none";
 
 $(document).mousemove(function(e) {
+	console.log("active " + active);
+	if(active) {
+		togglePressed = active;
+		active = false;
+	}
 	posX = e.pageX;
 	posY = e.pageY - $(document).scrollTop();
 	if((down && !check) || togglePressed) {
@@ -25,7 +32,8 @@ document.addEventListener('keydown', (event) => {
 	const keyName = event.key;
 	if(keyName === key){
 		down = true;
-		
+		active = false;
+
 		if(!check || !togglePressed) {
 			restoreOptions();
 			canvas.style.zIndex = "999999999999";
@@ -41,7 +49,7 @@ document.addEventListener('keyup', (event) => {
 		if(check){
 			if(togglePressed == true)
 				togglePressed = false;
-			else 
+			else
 				togglePressed = true;
 		}
 
@@ -51,7 +59,7 @@ document.addEventListener('keyup', (event) => {
 
 		if(!check)
 			down = false;
-	}	
+	}
 });
 
 document.addEventListener('mouseenter', (event) => {
@@ -65,6 +73,8 @@ function displayCursorPos(){
 function erase(){
 	var context = canvas.getContext("2d");
 	context.clearRect(0, 0, canvas.width, canvas.height);
+
+	drawnTick = 0;
 }
 
 window.onresize = function(event){
@@ -82,7 +92,6 @@ function sizeCanvas(){
 }
 
 function drawCircle(){
-	displayCursorPos();
 	var context = canvas.getContext("2d");
 	context.fillStyle = "#".concat(highlightColor.toUpperCase());
 	context.globalAlpha = alpha;
@@ -90,6 +99,8 @@ function drawCircle(){
 	context.arc(posX, posY + scrollDelta, radius, 0, 2 * Math.PI);
 	context.closePath();
 	context.fill();
+
+	drawnTick++;
 }
 
 function restoreOptions(){
@@ -97,13 +108,35 @@ function restoreOptions(){
   	color: "FFEB3B",
     opac: 0.5,
     rad: 50,
-    trigger: "F2",
-	toggle: false
+    trigger: "u",
+		toggle: true,
+		activePage: false
   }, function(items) {
     alpha = items.opac;
     radius = items.rad;
     key = items.trigger;
     highlightColor = items.color;
-	check = items.toggle;
+		check = items.toggle;
+		active = items.activePage;
   })
+};
+
+$(window).bind('beforeunload', function () {
+	//if drawn after erased
+	if ( drawnTick > 0 ) {
+		//called to save the parameters
+		saveOptions();
+	}
+});
+
+function saveOptions() {
+	//chrome API to store data in JSON
+	chrome.storage.sync.set({
+		color: highlightColor,
+		opac: alpha,
+		rad: radius,
+		trigger: key,
+		toggle: check,
+		activePage: true
+	});
 };

@@ -1,37 +1,41 @@
 var opacity, radius, highlight, check;
 var initOpacity, initRadius;
+$('#trigger').attr('readonly', true);
 
 //called to save the parameters
 function saveOptions() {
   //assigns the parameters to what is set in the settings
-  var key = document.getElementById('trigger').value;  
+  // need to fix
+  var key = document.getElementById('trigger').value;
 
 	//chrome API to store data in JSON, anon function for when saved
 	chrome.storage.sync.set({
-	color: highlight,
-	opac: opacity,
-	rad: radius,
-	trigger: key,
-	toggle: check
-	}, function() {
-		//sets div status element to options saved for 1 second, then to empty
-		$("#save-status").text("options saved!");
-		setTimeout(function() {
-				$("#save-status").text("");
-		}, 1000);
+  	color: highlight,
+  	opac: opacity,
+  	rad: radius,
+  	trigger: key,
+  	toggle: check,
+    activePage: false
+  	}, function() {
+  		//sets div status element to options saved for 1 second, then to empty
+  		$("#save-status").text("Options saved!");
+  		setTimeout(function() {
+  				$("#save-status").text("");
+  		}, 1000);
 	});
 }
 
 //sets the values of the sliders and other settings to saved settings. if not saved, then
 //sets the values to default parameters
 function restoreOptions() {
-  //retrieves data saved, if not found then set these to default parameters 
+  //retrieves data saved, if not found then set these to default parameters
   chrome.storage.sync.get({
     color: "FFEB3B",
     opac: .5,
     rad: 50,
-    trigger: "F2",
-		toggle: false
+    trigger: "u",
+		toggle: true,
+    activePage = false
   }, function(items) {
   	//sets value of the sliders and settings to saved settings
     document.getElementById('trigger').value = items.trigger;
@@ -118,18 +122,30 @@ $("#toggle").click(function() {
 		}
 });
 
+$("#trigger").click(function() {
+  var listener = new window.keypress.Listener();
+  $(this).val("Press a key!");
+  $(this).keydown(function (event) {
+    if(event.which == 13) {
+      event.preventDefault();
+    }
+    key = event.key;
+    $(this).val(key);
+  });
+});
+
 function drawCircle(o, r, h) {
 		var canvas = document.getElementById('preview');
 		var context = canvas.getContext("2d");
 
 		context.clearRect(0, 0, canvas.width, canvas.height);
-		
+
 		context.font = "25px Arial";
 		context.globalAlpha = 1;
 		context.textAlign = "center";
 		context.fillStyle = "black";
 		context.fillText("Lorem Ipsum", canvas.width/2, canvas.height/2);
-		
+
 		context.fillStyle = "#".concat(h);
 		context.globalAlpha = o;
 		context.beginPath();
