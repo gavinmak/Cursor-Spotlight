@@ -2,13 +2,12 @@ var opacity, radius, highlight, check;
 var initOpacity, initRadius;
 $('#trigger').attr('readonly', true);
 
-//called to save the parameters
+// called to save the parameters
 function saveOptions() {
-  //assigns the parameters to what is set in the settings
-  // need to fix
+  // assigns the parameters to what is set in the settings
   var key = document.getElementById('trigger').value;
 
-	//chrome API to store data in JSON, anon function for when saved
+	// chrome API to store data in JSON, anon function for when saved
 	chrome.storage.sync.set({
   	color: highlight,
   	opac: opacity,
@@ -17,7 +16,7 @@ function saveOptions() {
   	toggle: check,
     activePage: false
   	}, function() {
-  		//sets div status element to options saved for 1 second, then to empty
+  		// sets div status element to options saved for 1 second, then to empty
   		$("#save-status").text("Options saved!");
   		setTimeout(function() {
   				$("#save-status").text("");
@@ -25,22 +24,22 @@ function saveOptions() {
 	});
 }
 
-//sets the values of the sliders and other settings to saved settings. if not saved, then
-//sets the values to default parameters
+// sets the values of the sliders and other settings to saved settings. if not saved, then
+// sets the values to default parameters
 function restoreOptions() {
-  //retrieves data saved, if not found then set these to default parameters
+  // retrieves data saved, if not found then set these to default parameters
   chrome.storage.sync.get({
     color: "FFEB3B",
     opac: .5,
     rad: 50,
-    trigger: "u",
+    trigger: "F2",
 		toggle: true,
     activePage: false
   }, function(items) {
-  	//sets value of the sliders and settings to saved settings
+  	// sets value of the sliders and settings to saved settings
     document.getElementById('trigger').value = items.trigger;
 
-    //draws the circle and text preview to loaded preferences
+    // draws the circle and text preview to loaded preferences
 		opacity = items.opac;
 		radius = items.rad;
 		highlight = items.color;
@@ -50,16 +49,16 @@ function restoreOptions() {
   });
 }
 
-//when document loads, restore the options
+// when document loads, restore the options
 document.addEventListener('DOMContentLoaded', restoreOptions);
 
-//when save button is clicked, save options
+// when save button is clicked, save options
 $("#save-button").click(function() {
 	saveOptions();
 });
 
 $(function() {
-	//slider for opacity
+	// slider for opacity
 	var handleOpacity = $("#opacity");
 	$("#opacity-slider").slider({
 		create: function() {
@@ -75,7 +74,7 @@ $(function() {
 		value: opacity
   });
 
-	//slider for radius
+	// slider for radius
 	var handleRadius = $("#radius");
 	$("#radius-slider").slider({
 		create: function() {
@@ -89,7 +88,7 @@ $(function() {
 		value: radius
   });
 
-	//slider for colors
+	// slider for colors
 	function refreshHighlight() {
 		var red = $("#red").slider("value"),
 				green = $("#green") .slider("value"),
@@ -102,7 +101,6 @@ $(function() {
 		orientation: "horizontal",
 		range: "min",
 		max: 255,
-		//value: 127,
 		slide: refreshHighlight,
 		change: refreshHighlight
 	});
@@ -114,6 +112,7 @@ $(function() {
   });
 
 $("#toggle").click(function() {
+    // sets the toggle value based on the check box
 		if($(this).prop("checked") == true){
 				check = true;
 		}
@@ -124,7 +123,10 @@ $("#toggle").click(function() {
 
 $("#trigger").click(function() {
   var listener = new window.keypress.Listener();
+  // sets the text box to this message when clicked on
   $(this).val("Press a key!");
+
+  // waits for an input key and sets the text to that key
   $(this).keydown(function (event) {
     if(event.which == 13) {
       event.preventDefault();
@@ -134,6 +136,7 @@ $("#trigger").click(function() {
   });
 });
 
+// draws circle on canvas given opacity, radius, and hex color
 function drawCircle(o, r, h) {
 		var canvas = document.getElementById('preview');
 		var context = canvas.getContext("2d");
@@ -155,6 +158,7 @@ function drawCircle(o, r, h) {
 		context.fillStyle = "black";
 }
 
+// converts RGB to a string hex value
 function hexFromRGB(r, g, b) {
 	var hex = [
 		r.toString(16),
@@ -169,6 +173,7 @@ function hexFromRGB(r, g, b) {
 	return hex.join("").toUpperCase();
 }
 
+// converts hex to an RGB value
 function hexToRGB(hex) {
     var rStr = hex.substr(0, 2).toLowerCase(),
 		gStr = hex.substr(2, 2).toLowerCase(),
