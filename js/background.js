@@ -117,17 +117,17 @@ function drawCircle(){
 
 function restoreOptions(){
   chrome.storage.sync.get({
-  	color: "FFEB3B",
-    opac: 0.5,
-    rad: 50,
-    trigger: "F2",
+	  	color: "FFEB3B",
+	    opac: 0.5,
+	    rad: 50,r[]
+	    trigger: "F2",
 		toggle: true,
 		activePage: false
   }, function(items) {
-    alpha = items.opac;
-    radius = items.rad;
-    key = items.trigger;
-    highlightColor = items.color;
+	    alpha = items.opac;
+	    radius = items.rad;
+	    key = items.trigger;
+	    highlightColor = items.color;
 		check = items.toggle;
 		active = items.activePage;
   })
