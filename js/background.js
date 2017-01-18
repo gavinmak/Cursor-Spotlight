@@ -119,7 +119,7 @@ function restoreOptions(){
   chrome.storage.sync.get({
 	  	color: "FFEB3B",
 	    opac: 0.5,
-	    rad: 50,r[]
+	    rad: 50,
 	    trigger: "F2",
 		toggle: true,
 		activePage: false
